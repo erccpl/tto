@@ -1,5 +1,3 @@
-import org.apache.commons.lang3.text.WordUtils;
-
 public class Main {
 
     //TODO: may consider adding some more sophisticated formatting
@@ -10,7 +8,9 @@ public class Main {
 
                 "The program arguments are <path_to_file> followed by: \n" +
                 "-toc   prints the table of contents\n" +
-                "-p     prints a selected paragraph\n";
+                "-p     prints a selected paragraph\n" +
+
+                "Example usages: \n";
 
         System.out.println(welcomeMessage);
     }
@@ -24,7 +24,7 @@ public class Main {
 
         //Go back to loop to get next command
 
-
+        System.out.println(LineType.SECTION > LineType.CHAPTER);
 
     }
 
