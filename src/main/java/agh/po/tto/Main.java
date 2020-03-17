@@ -1,30 +1,58 @@
+package agh.po.tto;
+
+import org.apache.commons.cli.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     //TODO: may consider adding some more sophisticated formatting
     private static void displayWelcomeMessage() {
         String welcomeMessage =
-                "Hello and welcome to the Act Parser! \n" +
-                "Enter the path and options and we'll handle the rest. \n\n" +
-
-                "The program arguments are <path_to_file> followed by: \n" +
-                "-toc   prints the table of contents\n" +
-                "-p     prints a selected paragraph\n" +
-
-                "Example usages: \n";
-
+                "Hello and welcome to the Act Parser \n" +
+                "Use -h to display the how-to message. \n\n";
         System.out.println(welcomeMessage);
+
+        Options options = CLIHandler.buildOptions();
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("LegalActParser", options);
     }
 
-    public static void main(String[] args) {
-        displayWelcomeMessage();
+
+    public static void main(String[] args) throws ParseException {
+        //displayWelcomeMessage();
+
+        List<String> rawDocument = new ArrayList<>();
+        String filename = "./src/main/resources/test.txt";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            while (br.ready()) {
+                rawDocument.add(br.readLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        PreProcessor preProcessor = new PreProcessor(rawDocument);
+        preProcessor.preprocess();;
+        List<String> preprocessed = preProcessor.getPreProcessedInput();
+        preprocessed.forEach(System.out::println);
+
+
+
         //Enter loop with Scanner
-            //Parse input to determine what we're doing today
-
-            //Do said thing
-
-        //Go back to loop to get next command
-
-        System.out.println(LineType.SECTION > LineType.CHAPTER);
+//        while (true) {
+//            System.out.print(">>");
+//            Scanner scan = new Scanner(System.in);
+//            String s = scan.next();
+//
+//            CLIHandler.doCommand(s);
+//
+//        }
 
     }
 
