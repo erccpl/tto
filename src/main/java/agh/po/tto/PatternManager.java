@@ -1,18 +1,22 @@
 package agh.po.tto;
 
+import agh.po.tto.structure.DocLineType;
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * This class is intended to manage all the regular expressions handled in the preprocessing phase.
+ * This class is for managing all the regular expressions handled in the preprocessing phase.
  * Ths PreProcessor class HAS-A PatternManager class and queries it to perform specific tasks.
  */
 
 public class PatternManager {
-    Set<Pattern> redundantPatterns = new HashSet<>();
-    Pattern disjointLinePattern;
-    Pattern articleOverlapPattern;
+    private Set<Pattern> redundantPatterns = new HashSet<>();
+    private Set<Pair<Pattern, DocLineType>> labels = new HashSet<>();
+    private Pattern disjointLinePattern;
+    private Pattern articleOverlapPattern;
 
 
     public PatternManager() {
@@ -26,7 +30,7 @@ public class PatternManager {
         Pattern date = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
         this.redundantPatterns.add(date);
 
-        Pattern oneCharacter = Pattern.compile("^[a-zA-Z0-9]{1}$");
+        Pattern oneCharacter = Pattern.compile("^\\w{1}$");
         this.redundantPatterns.add(oneCharacter);
 
 
@@ -35,7 +39,36 @@ public class PatternManager {
 
 
         //Jumbled article with first point that needs seperation
-        this.articleOverlapPattern = Pattern.compile("^Art. [1-9]+. ");
+        this.articleOverlapPattern = Pattern.compile("^Art. [1-9]+.");
+
+
+
+
+        //Patterns for labelling the document
+        Pattern mainHeaderPattern = Pattern.compile("^[A-Z]+$");
+        this.labels.add(Pair.of(mainHeaderPattern, DocLineType.MAIN_HEADER));
+
+        Pattern sectionPattern = Pattern.compile("DZIAŁ [I|V|X]+$");
+        this.labels.add(Pair.of(sectionPattern, DocLineType.SECTION));
+
+        Pattern articlePattern = Pattern.compile("^Art. [1-9]+.$");
+        this.labels.add(Pair.of(articlePattern, DocLineType.ARTICLE));
+
+        Pattern numDotPattern = Pattern.compile("^[1-9]+.[a-z]*");
+        this.labels.add(Pair.of(numDotPattern, DocLineType.NUM_DOT));
+
+        Pattern numParenPattern = Pattern.compile("^[1-9]+[a-z]*\\)");
+        this.labels.add(Pair.of(numParenPattern, DocLineType.NUM_PAREN));
+
+        Pattern letterParenPattern = Pattern.compile("^[a-z]\\)");
+        this.labels.add(Pair.of(letterParenPattern, DocLineType.LETTER_PAREN));
+
+
+
+
+
+
+
 
     }
 
@@ -50,5 +83,9 @@ public class PatternManager {
 
     public Pattern getArticleOverlapPattern() {
         return articleOverlapPattern;
+    }
+
+    public Set<Pair<Pattern,DocLineType>> getLabels() {
+        return labels;
     }
 }

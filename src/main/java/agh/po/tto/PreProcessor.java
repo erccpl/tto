@@ -1,5 +1,9 @@
 package agh.po.tto;
 
+import agh.po.tto.structure.DocLineType;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -15,6 +19,7 @@ public class PreProcessor {
     List<String> rawInput;
     List<String> preProcessedInput;
     PatternManager patternManager;
+
     ArrayList<DocLine> docLines;
 
 
@@ -22,14 +27,15 @@ public class PreProcessor {
         this.rawInput = input;
         this.preProcessedInput = input;
         this.patternManager = new PatternManager();
+        this.docLines = new ArrayList<>();
     }
 
     public List<String> getRawInput() {
         return rawInput;
     }
 
-    public List<String> getPreProcessedInput() {
-        return preProcessedInput;
+    public List<DocLine> getPreProcessedInput() {
+        return docLines;
     }
 
     /**
@@ -44,9 +50,7 @@ public class PreProcessor {
         removeRedundantLines();
         mergeDisjointLines();
         delimitSections();
-
-
-
+        labelLines();
     }
 
 
@@ -104,14 +108,45 @@ public class PreProcessor {
             if (m.find()) {
                 int delimitingPoint = m.end();
                 String first = line.substring(0, delimitingPoint);
-                String newLine = line.substring(delimitingPoint, line.length() - 1);
+                String newLine = line.substring(delimitingPoint+1);
                 it.remove();
                 it.add(first);
                 it.add(newLine);
             }
         }
+    }
 
 
+    /**
+     * Scans the raw document representation and builds a new array with labelled lines.
+     * @return returns an array of DocLines, which contain metainformation about the line.
+     */
+    private void labelLines() {
+        ListIterator<String> it = this.preProcessedInput.listIterator();
+        while (it.hasNext()) {
+
+            String line = it.next();
+            boolean found = false;
+
+            for (Pair<Pattern, DocLineType> label : patternManager.getLabels()) {
+                Matcher m = label.getLeft().matcher(line);
+                if (m.find()) {
+                    DocLine newLabelledLine = new DocLine(label.getRight(), line);
+                    this.docLines.add(newLabelledLine);
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                switch (docLines.get(docLines.size()-1).getType()) {
+                    case MAIN_HEADER, TITLE, SECTION:
+                        docLines.add(new DocLine(DocLineType.TITLE, line));
+                        break;
+                    default:
+                        docLines.add(new DocLine(DocLineType.NORMAL_TEXT, line));
+                }
+            }
+        }
     }
 
 

@@ -39,8 +39,10 @@ public class Main {
 
         PreProcessor preProcessor = new PreProcessor(rawDocument);
         preProcessor.preprocess();;
-        List<String> preprocessed = preProcessor.getPreProcessedInput();
-        preprocessed.forEach(System.out::println);
+        List<DocLine> preprocessed = preProcessor.getPreProcessedInput();
+        for (DocLine line : preprocessed) {
+            System.out.println(line.getContent() + ",\t" + line.getType());
+        }
 
 
 
