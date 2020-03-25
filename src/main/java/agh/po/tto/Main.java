@@ -26,7 +26,7 @@ public class Main {
         //displayWelcomeMessage();
 
         List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/test.txt";
+        String filename = "./src/main/resources/konstytucja_test.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             while (br.ready()) {
@@ -38,10 +38,10 @@ public class Main {
 
 
         PreProcessor preProcessor = new PreProcessor(rawDocument);
-        preProcessor.preprocess();;
+        preProcessor.preprocess();
         List<DocLine> preprocessed = preProcessor.getPreProcessedInput();
         for (DocLine line : preprocessed) {
-            System.out.println(line.getContent() + ",\t" + line.getType());
+            System.out.println(line.getContent() + " -- \t" + line.getType());
         }
 
 
@@ -55,6 +55,7 @@ public class Main {
 //            CLIHandler.doCommand(s);
 //
 //        }
+
 
     }
 

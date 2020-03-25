@@ -3,7 +3,6 @@ package agh.po.tto;
 import agh.po.tto.structure.DocLineType;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -108,7 +107,7 @@ public class PreProcessor {
             if (m.find()) {
                 int delimitingPoint = m.end();
                 String first = line.substring(0, delimitingPoint);
-                String newLine = line.substring(delimitingPoint+1);
+                String newLine = line.substring(delimitingPoint);
                 it.remove();
                 it.add(first);
                 it.add(newLine);
@@ -137,17 +136,17 @@ public class PreProcessor {
                     break;
                 }
             }
-            if(!found) {
-                switch (docLines.get(docLines.size()-1).getType()) {
-                    case MAIN_HEADER, TITLE, SECTION:
-                        docLines.add(new DocLine(DocLineType.TITLE, line));
-                        break;
-                    default:
-                        docLines.add(new DocLine(DocLineType.NORMAL_TEXT, line));
+            if (!found) {
+                if (docLines.isEmpty()) {
+                    docLines.add(new DocLine(DocLineType.HEADER, line));
+                } else {
+                    switch (docLines.get(docLines.size() - 1).getType()) {
+                        case CHAPTER, SECTION -> docLines.add(new DocLine(DocLineType.TITLE, line));
+                        default -> docLines.add(new DocLine(DocLineType.NORMAL_TEXT, line));
+                    }
                 }
             }
         }
     }
-
 
 }

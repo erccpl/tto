@@ -10,7 +10,7 @@ package agh.po.tto.structure;
  */
 public enum DocLineType {
 
-        MAIN_HEADER,
+        HEADER,
         SECTION,
         CHAPTER,
         TITLE,
