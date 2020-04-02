@@ -10,15 +10,15 @@ package agh.po.tto.structure;
  */
 public enum DocLineType {
 
-        HEADER,
-        SECTION,
-        CHAPTER,
-        TITLE,
-        ARTICLE,
-        NUM_DOT,
-        NUM_PAREN,
-        LETTER_PAREN,
-        NORMAL_TEXT;
+        HEADER,         //0
+        SECTION,        //1
+        CHAPTER,        //2
+        TITLE,          //3
+        ARTICLE,        //4
+        NUM_DOT,        //5
+        NUM_PAREN,      //6
+        LETTER_PAREN,   //7
+        TEXT;           //8
 
         /**
          * Returns the depth of the current line with regards to the entire document

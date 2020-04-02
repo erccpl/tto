@@ -17,6 +17,7 @@ public class PatternManager {
     private Set<Pair<Pattern, DocLineType>> labels = new HashSet<>();
     private Pattern disjointLinePattern;
     private Pattern articleOverlapPattern;
+    private Pattern allCapsPattern;
 
 
     public PatternManager() {
@@ -39,25 +40,26 @@ public class PatternManager {
 
 
         //Jumbled article with first point that needs seperation
-        this.articleOverlapPattern = Pattern.compile("^Art. [1-9]+. ");
+        this.articleOverlapPattern = Pattern.compile("^Art. [0-9a-z]+. ");
 
+
+        //Speical all-caps pattern
+        //TODO: write a proper regex for this
+        this.allCapsPattern = Pattern.compile("^[A-Z]{3}");
 
 
 
         //Patterns for labelling the document
-        Pattern mainHeaderPattern = Pattern.compile("^[A-Z ]+$");
-        this.labels.add(Pair.of(mainHeaderPattern, DocLineType.HEADER));
-
         Pattern sectionPattern = Pattern.compile("^DZIAŁ [I|V|X]+$");
         this.labels.add(Pair.of(sectionPattern, DocLineType.SECTION));
 
-        Pattern chapterPattern = Pattern.compile("^Rozdział [I|V|X]+$");
+        Pattern chapterPattern = Pattern.compile("^Rozdział [I|V|X|[1-9]]+$");
         this.labels.add(Pair.of(chapterPattern, DocLineType.CHAPTER));
 
-        Pattern articlePattern = Pattern.compile("^Art. [0-9]+.$");
+        Pattern articlePattern = Pattern.compile("^Art. [0-9a-z]+.");
         this.labels.add(Pair.of(articlePattern, DocLineType.ARTICLE));
 
-        Pattern numDotPattern = Pattern.compile("^[1-9]+.[a-z]*");
+        Pattern numDotPattern = Pattern.compile("^[1-9]+[a-z]*\\.[a-z]*");
         this.labels.add(Pair.of(numDotPattern, DocLineType.NUM_DOT));
 
         Pattern numParenPattern = Pattern.compile("^[1-9]+[a-z]*\\)");
@@ -65,7 +67,6 @@ public class PatternManager {
 
         Pattern letterParenPattern = Pattern.compile("^[a-z]\\)");
         this.labels.add(Pair.of(letterParenPattern, DocLineType.LETTER_PAREN));
-
     }
 
 
@@ -83,5 +84,9 @@ public class PatternManager {
 
     public Set<Pair<Pattern,DocLineType>> getLabels() {
         return labels;
+    }
+
+    public Pattern getAllCapsPattern() {
+        return allCapsPattern;
     }
 }

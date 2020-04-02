@@ -1,5 +1,6 @@
 package agh.po.tto;
 
+import agh.po.tto.node.DocNode;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
@@ -26,7 +27,7 @@ public class Main {
         //displayWelcomeMessage();
 
         List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/konstytucja_test.txt";
+        String filename = "./src/main/resources/konstytucja.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             while (br.ready()) {
@@ -36,13 +37,25 @@ public class Main {
             e.printStackTrace();
         }
 
-
         PreProcessor preProcessor = new PreProcessor(rawDocument);
         preProcessor.preprocess();
-        List<DocLine> preprocessed = preProcessor.getPreProcessedInput();
-        for (DocLine line : preprocessed) {
-            System.out.println(line.getContent() + " -- \t" + line.getType());
-        }
+        ArrayList<DocLine> preprocessed = preProcessor.getPreProcessedInput();
+
+//        for (DocLine line : preprocessed) {
+//            System.out.println(line.getContent() + " -- \t" + line.getType());
+//        }
+
+        Document document = new Document(preprocessed);
+        document.buildDocument();
+
+
+
+
+
+
+
+
+
 
 
 

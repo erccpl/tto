@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  * DocLines for further processing.
  */
 public class PreProcessor {
-    List<String> rawInput;
-    List<String> preProcessedInput;
-    PatternManager patternManager;
+    private List<String> rawInput;
+    private List<String> preProcessedInput;
+    private PatternManager patternManager;
 
-    ArrayList<DocLine> docLines;
+    private ArrayList<DocLine> docLines;
 
 
     public PreProcessor(List<String> input) {
@@ -33,7 +33,7 @@ public class PreProcessor {
         return rawInput;
     }
 
-    public List<DocLine> getPreProcessedInput() {
+    public ArrayList<DocLine> getPreProcessedInput() {
         return docLines;
     }
 
@@ -122,31 +122,49 @@ public class PreProcessor {
      */
     private void labelLines() {
         ListIterator<String> it = this.preProcessedInput.listIterator();
+
+        //TODO: assumes header is always three lines
+        //Code should analyze file to figure out what it is parsing
+        if (docLines.isEmpty()) {
+            DocLine newLabelledLine = new DocLine(DocLineType.HEADER, it.next());
+            this.docLines.add(newLabelledLine);
+            newLabelledLine = new DocLine(DocLineType.HEADER, it.next());
+            this.docLines.add(newLabelledLine);
+            newLabelledLine = new DocLine(DocLineType.HEADER, it.next());
+            this.docLines.add(newLabelledLine);
+        }
+
         while (it.hasNext()) {
+            String line = it.next().strip();
+            DocLineType previousLineType = docLines.get(docLines.size() - 1).getType();
+            Pair<Pattern, DocLineType> label = this.getMatchingLabel(line);
+            Matcher m = patternManager.getAllCapsPattern().matcher(line);
 
-            String line = it.next();
-            boolean found = false;
+            if (previousLineType == DocLineType.CHAPTER || previousLineType == DocLineType.SECTION) {
+                docLines.add(new DocLine(DocLineType.TITLE, line));
+            }
+            else if (label.getRight() != DocLineType.TEXT) {
+                docLines.add(new DocLine(label.getRight(), line));
+            }
+            else if(m.find()) {
+                docLines.add(new DocLine(DocLineType.TITLE, line));
+            }
+            else {
+                docLines.add(new DocLine(label.getRight(), line));
+            }
 
-            for (Pair<Pattern, DocLineType> label : patternManager.getLabels()) {
-                Matcher m = label.getLeft().matcher(line);
-                if (m.find()) {
-                    DocLine newLabelledLine = new DocLine(label.getRight(), line);
-                    this.docLines.add(newLabelledLine);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                if (docLines.isEmpty()) {
-                    docLines.add(new DocLine(DocLineType.HEADER, line));
-                } else {
-                    switch (docLines.get(docLines.size() - 1).getType()) {
-                        case CHAPTER, SECTION -> docLines.add(new DocLine(DocLineType.TITLE, line));
-                        default -> docLines.add(new DocLine(DocLineType.NORMAL_TEXT, line));
-                    }
-                }
-            }
         }
     }
+
+    private Pair<Pattern, DocLineType> getMatchingLabel(String line) {
+        for (Pair<Pattern, DocLineType> label : patternManager.getLabels()) {
+            Matcher m = label.getLeft().matcher(line);
+            if (m.find()) {
+                return label;
+            }
+        }
+        return Pair.of(Pattern.compile(""), DocLineType.TEXT);
+    }
+
 
 }
