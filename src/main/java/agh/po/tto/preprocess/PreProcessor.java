@@ -1,6 +1,8 @@
-package agh.po.tto;
+package agh.po.tto.preprocess;
 
-import agh.po.tto.structure.DocLineType;
+import agh.po.tto.doc.DocLine;
+import agh.po.tto.doc.DocLineType;
+import agh.po.tto.regex.PatternManager;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -41,10 +43,6 @@ public class PreProcessor {
      * Converts the input .txt file to an array of DocLines
      * @return list - a list of DocLines
      */
-    //public ArrayList<DocLine> preprocess() {
-    //1. Label every line and add to the list.
-    //If it starts with Art. , then check if there is another designator behind that
-    //if there is then it is added as a seperate line as
     public void preprocess() {
         removeRedundantLines();
         mergeDisjointLines();

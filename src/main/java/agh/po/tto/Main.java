@@ -1,6 +1,9 @@
 package agh.po.tto;
 
-import agh.po.tto.node.DocNode;
+import agh.po.tto.cli.CLIHandler;
+import agh.po.tto.doc.DocLine;
+import agh.po.tto.doc.Document;
+import agh.po.tto.preprocess.PreProcessor;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
@@ -27,7 +30,7 @@ public class Main {
         //displayWelcomeMessage();
 
         List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/konstytucja.txt";
+        String filename = "./src/main/resources/uokik.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             while (br.ready()) {
@@ -47,6 +50,8 @@ public class Main {
 
         Document document = new Document(preprocessed);
         document.buildDocument();
+
+        System.out.println("Its Britney, bitch");
 
 
 

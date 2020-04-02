@@ -1,6 +1,6 @@
-package agh.po.tto;
+package agh.po.tto.regex;
 
-import agh.po.tto.structure.DocLineType;
+import agh.po.tto.doc.DocLineType;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashSet;
@@ -45,7 +45,7 @@ public class PatternManager {
 
         //Speical all-caps pattern
         //TODO: write a proper regex for this
-        this.allCapsPattern = Pattern.compile("^[A-Z]{3}");
+        this.allCapsPattern = Pattern.compile("^\\p{Lu}{3}");
 
 
 

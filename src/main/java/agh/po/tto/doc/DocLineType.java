@@ -1,4 +1,4 @@
-package agh.po.tto.structure;
+package agh.po.tto.doc;
 
 
 /**

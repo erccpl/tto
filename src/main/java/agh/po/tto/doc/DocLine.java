@@ -1,13 +1,11 @@
-package agh.po.tto;
+package agh.po.tto.doc;
 
-
-import agh.po.tto.structure.DocLineType;
 
 public class DocLine {
     private DocLineType type;
     private String content;
 
-    DocLine(DocLineType type, String content) {
+    public DocLine(DocLineType type, String content) {
         this.type = type;
         this.content = content;
     }

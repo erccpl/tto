@@ -1,4 +1,4 @@
-package agh.po.tto;
+package agh.po.tto.cli;
 
 
 

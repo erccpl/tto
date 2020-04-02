@@ -1,6 +1,4 @@
-package agh.po.tto.node;
-
-import agh.po.tto.DocLine;
+package agh.po.tto.doc;
 
 import java.util.ArrayList;
 
