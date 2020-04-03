@@ -20,10 +20,7 @@ public enum DocLineType {
         LETTER_PAREN,   //7
         TEXT;           //8
 
-        /**
-         * Returns the depth of the current line with regards to the entire document
-         * @return
-         */
+
         public int getDepth() {
             return this.ordinal();
         }

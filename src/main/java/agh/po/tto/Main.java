@@ -4,6 +4,7 @@ import agh.po.tto.cli.CLIHandler;
 import agh.po.tto.doc.DocLine;
 import agh.po.tto.doc.Document;
 import agh.po.tto.preprocess.PreProcessor;
+import agh.po.tto.search.RequestBuilder;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
@@ -51,7 +52,13 @@ public class Main {
         Document document = new Document(preprocessed);
         document.buildDocument();
 
-        System.out.println("Its Britney, bitch");
+        RequestBuilder request = new RequestBuilder(document.getRootNode());
+        request.printTOC();
+
+
+
+
+        //System.out.println("Its Britney, bitch");
 
 
 
