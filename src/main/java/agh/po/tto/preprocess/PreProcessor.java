@@ -21,7 +21,7 @@ public class PreProcessor {
     private List<String> preProcessedInput;
     private PatternManager patternManager;
 
-    private ArrayList<DocLine> docLines;
+    private List<DocLine> docLines;
 
 
     public PreProcessor(List<String> input) {
@@ -35,7 +35,7 @@ public class PreProcessor {
         return rawInput;
     }
 
-    public ArrayList<DocLine> getPreProcessedInput() {
+    public List<DocLine> getPreProcessedInput() {
         return docLines;
     }
 

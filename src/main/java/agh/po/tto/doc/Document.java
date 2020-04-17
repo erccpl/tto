@@ -51,6 +51,7 @@ public class Document {
         else {
             DocNode newNode = new DocNode();
             newNode.getId().add(currentLine);
+            newNode.setDepth(currentLine.getType().getDepth());
             DocNode parent = findParent(lineDepth, currentNode);
             newNode.setParent(parent);
             parent.getSubContents().add(newNode);
@@ -60,12 +61,12 @@ public class Document {
     }
 
     private DocNode findParent(int newNodeDepth, DocNode currentNode) {
-        int currentNodeDepth = currentNode.getId().get(0).getType().getDepth();
+        int currentNodeDepth = currentNode.getDepth();
         DocNode parent = currentNode;
 
         while(newNodeDepth - currentNodeDepth <= 0) {
             parent = parent.getParent();
-            currentNodeDepth = parent.getId().get(0).getType().getDepth();
+            currentNodeDepth = parent.getDepth();
         }
         return parent;
     }

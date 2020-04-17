@@ -3,8 +3,9 @@ package agh.po.tto;
 import agh.po.tto.cli.CLIHandler;
 import agh.po.tto.doc.DocLine;
 import agh.po.tto.doc.Document;
+import agh.po.tto.path.DocPath;
 import agh.po.tto.preprocess.PreProcessor;
-import agh.po.tto.search.RequestBuilder;
+import agh.po.tto.search.NodeParser;
 import org.apache.commons.cli.*;
 
 import java.io.BufferedReader;
@@ -31,7 +32,7 @@ public class Main {
         //displayWelcomeMessage();
 
         List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/uokik.txt";
+        String filename = "./src/main/resources/konstytucja.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             while (br.ready()) {
@@ -52,8 +53,24 @@ public class Main {
         Document document = new Document(preprocessed);
         document.buildDocument();
 
-        RequestBuilder request = new RequestBuilder(document.getRootNode());
-        request.printTOC();
+        NodeParser nodeParser = new NodeParser(document.getRootNode());
+        nodeParser.createTOC();
+        //nodeParser.printTOC();
+
+
+
+        //find one particular node
+        //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
+        DocPath path = new DocPath(new String[]{"Art. 55", "^1\\."});
+        nodeParser.getOneNode(path);
+
+
+        //find a range of nodes on the same depth
+
+
+
+
+        //find a range where left depth is higher than right depth
 
 
 

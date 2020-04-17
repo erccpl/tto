@@ -9,6 +9,7 @@ import java.util.ArrayList;
 //TODO: contents should be transformed into a String at this point
 public class DocNode {
 
+    private int depth;
     private DocNode parent;
     private ArrayList<DocLine> id;
     private ArrayList<DocLine> contents;
@@ -51,4 +52,13 @@ public class DocNode {
     public void setSubContents(ArrayList<DocNode> subContents) {
         this.subContents = subContents;
     }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
 }
