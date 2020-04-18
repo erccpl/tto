@@ -44,7 +44,7 @@ public class Main {
 
         PreProcessor preProcessor = new PreProcessor(rawDocument);
         preProcessor.preprocess();
-        ArrayList<DocLine> preprocessed = preProcessor.getPreProcessedInput();
+        List<DocLine> preprocessed = preProcessor.getPreProcessedInput();
 
 //        for (DocLine line : preprocessed) {
 //            System.out.println(line.getContent() + " -- \t" + line.getType());
@@ -59,14 +59,16 @@ public class Main {
 
 
 
-        //find one particular node
         //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
-        DocPath path = new DocPath(new String[]{"Art. 55", "^1\\."});
-        nodeParser.getOneNode(path);
+        DocPath path1 = new DocPath(new String[]{"Art. 4", "^1\\."});
+        DocPath path2 = new DocPath(new String[]{"Art. 7"});
+
+        //find one particular node
+        //nodeParser.getOneNode(path1);
 
 
         //find a range of nodes on the same depth
-
+        nodeParser.getRange(path1, path2);
 
 
 

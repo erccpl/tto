@@ -1,12 +1,12 @@
 package agh.po.tto.doc;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Document {
-    private ArrayList<DocLine> labelledLines;
+    private List<DocLine> labelledLines;
     private DocNode rootNode;
 
-    public Document(ArrayList<DocLine> labelledLines) {
+    public Document(List<DocLine> labelledLines) {
         this.labelledLines = labelledLines;
         this.rootNode = new DocNode();
     }
