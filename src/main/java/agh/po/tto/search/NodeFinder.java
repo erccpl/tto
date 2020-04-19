@@ -32,7 +32,11 @@ public class NodeFinder {
         }
         else {
             if (index == ids.length - 1) {
-                this.result = node;
+                String l = node.getParent().getId().get(0).getContent();
+                Pattern p = Pattern.compile(ids[index-1]);
+                if(p.matcher(l).find()) {
+                    this.result = node;
+                }
             }
             else if (++index != ids.length) {
                 for (DocNode subNode : node.getSubContents()) {

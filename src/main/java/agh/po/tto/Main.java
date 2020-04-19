@@ -60,32 +60,15 @@ public class Main {
 
 
         //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
-        DocPath path1 = new DocPath(new String[]{"^Art\\. 4\\.", "^a\\)"});
-        DocPath path2 = new DocPath(new String[]{"^Art\\. 5\\."});
+        DocPath path1 = new DocPath(new String[]{"^Art\\. 4\\.", "^1\\)", "^a\\)"});
+        DocPath path2 = new DocPath(new String[]{"^Art\\. 4\\.", "^b\\)"});
 
         //find one particular node
         //nodeParser.getOneNode(path1);
-
+        System.out.println();
 
         //find a range of nodes on the same depth
-        nodeParser.getRange(path1, path2);
-
-
-
-        //find a range where left depth is higher than right depth
-
-
-
-
-        //System.out.println("Its Britney, bitch");
-
-
-
-
-
-
-
-
+        //nodeParser.getRange(path1, path2);
 
 
 
