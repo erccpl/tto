@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class NodeParser {
     private DocNode rootNode;
@@ -58,6 +59,7 @@ public class NodeParser {
             System.out.println("At least one of the given paths does not exist");
         }
         List<String> result = getNodeRangeContents(node1, node2, new ArrayList<>());
+        result = result.stream().distinct().collect(Collectors.toList());
         result.forEach(System.out::println);
     }
 
@@ -75,45 +77,47 @@ public class NodeParser {
     }
 
     private List<String> getNodeRangeContents(DocNode node1, DocNode node2, List<String> result) {
-        Pattern endNodeId = Pattern.compile(node2.getId().get(0).getContent());
-        Matcher m = endNodeId.matcher(node1.getId().get(0).getContent());
-        DocNode nextNode = node1;
+        //TODO: this pattern replacement cannot be done here
+        String endPattern = node2.getId().get(0).getContent().replaceAll("\\)", "\\\\)");
+        Pattern endNodeId = Pattern.compile(endPattern);
+        Matcher m;
+        DocNode currentNode = node1;
         DocNode previousNode;
+        int previousDepth;
         int currentDepth;
 
-        while(!m.find()){
-            getNodeContents(nextNode, result);
-            previousNode = nextNode;
-            currentDepth = nextNode.getDepth();
-            nextNode = getNextNode(nextNode);
+        getNodeContents(currentNode, result);
+        while(true) {
 
-            if(nextNode.getDepth() < currentDepth) {
-                DocNode parent = nextNode.getParent();
-                for(int i = 0; i < parent.getSubContents().size(); i++) {
-                    if(parent.getSubContents().get(i) == nextNode){
-                        if(i+1 != parent.getSubContents().size()) {
-                            nextNode = parent.getSubContents().get(i+1);
-                            for (DocLine line : nextNode.getId()) {
-                                result.add(line.getContent());
-                            }
-                            getNodeRangeContents(nextNode.getSubContents().get(0), node2, result);
-                            return result;
-                        } else {
-                            nextNode = parent.getParent();
-                            break;
-                        }
-                    }
-                }
+            m = endNodeId.matcher(currentNode.getId().get(0).getContent());
+            if(m.find()) {
+                getNodeContents(currentNode, result);
+                break;
             }
-            m = endNodeId.matcher(nextNode.getId().get(0).getContent());
+            previousNode = currentNode;
+            previousDepth = currentNode.getDepth();
+
+            currentNode = getNextNode(currentNode);
+            currentDepth = currentNode.getDepth();
+
+            if(currentDepth == previousDepth) {
+                    result.add(currentNode.getId().get(0).getContent());
+                    previousNode = currentNode;
+                    while(currentNode.getSubContents().size() != 0){
+                        currentNode = currentNode.getSubContents().get(0);
+                    }
+
+                getNodeContents(currentNode, result);
+            }
         }
-        getNodeContents(nextNode, result);
         return result;
     }
 
-    private DocNode getNextNode(DocNode node1) {
-        DocNode parent = node1.getParent();
-        Pattern id = Pattern.compile(node1.getId().get(0).getContent());
+    private DocNode getNextNode(DocNode node) {
+        DocNode parent = node.getParent();
+        String pattern = node.getId().get(0).getContent().replaceAll("\\)", "\\\\)");
+        pattern = pattern.replaceAll("\\(", "\\\\(");
+        Pattern id = Pattern.compile(pattern);
         Matcher m;
         for(int i = 0; i < parent.getSubContents().size(); i++) {
             m = id.matcher(parent.getSubContents().get(i).getId().get(0).getContent());

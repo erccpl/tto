@@ -32,7 +32,7 @@ public class Main {
         //displayWelcomeMessage();
 
         List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/konstytucja.txt";
+        String filename = "./src/main/resources/uokik.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             while (br.ready()) {
@@ -60,8 +60,8 @@ public class Main {
 
 
         //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
-        DocPath path1 = new DocPath(new String[]{"^Art\\. 16\\.", "^1\\."});
-        DocPath path2 = new DocPath(new String[]{"^Art\\. 28\\."});
+        DocPath path1 = new DocPath(new String[]{"^Art\\. 4\\.", "^a\\)"});
+        DocPath path2 = new DocPath(new String[]{"^Art\\. 5\\."});
 
         //find one particular node
         //nodeParser.getOneNode(path1);
