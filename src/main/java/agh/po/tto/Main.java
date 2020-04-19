@@ -60,8 +60,8 @@ public class Main {
 
 
         //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
-        DocPath path1 = new DocPath(new String[]{"Art. 4", "^1\\."});
-        DocPath path2 = new DocPath(new String[]{"Art. 7"});
+        DocPath path1 = new DocPath(new String[]{"^Art\\. 16\\.", "^1\\."});
+        DocPath path2 = new DocPath(new String[]{"^Art\\. 28\\."});
 
         //find one particular node
         //nodeParser.getOneNode(path1);
