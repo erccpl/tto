@@ -10,12 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class NodeParser {
+
+public class DocParser {
+
     private DocNode rootNode;
     private NodeFinder nodeFinder;
     private List<DocLine> toc;
 
-    public NodeParser(DocNode rootNode) {
+    public DocParser(DocNode rootNode) {
         this.rootNode = rootNode;
         this.nodeFinder = new NodeFinder(rootNode);
         this.toc = new ArrayList<>();
@@ -37,7 +39,7 @@ public class NodeParser {
         }
     }
 
-    public void getOneNode(DocPath path) {
+    public void getNode(DocPath path) {
         DocNode node = nodeFinder.findNode(path);
         if(node == null) {
             System.out.println("Path does not exist.");
@@ -47,7 +49,7 @@ public class NodeParser {
         result.forEach(System.out::println);
     }
 
-    public void getRange(DocPath start, DocPath end) {
+    public void getNodeRange(DocPath start, DocPath end) {
         DocNode node1 = nodeFinder.findNode(start);
         DocNode node2 = nodeFinder.findNode(end);
         if(node1 == null || node2 == null){
@@ -120,5 +122,9 @@ public class NodeParser {
             getNodeContents(subNode, result);
         }
         return result;
+    }
+
+    public List<DocLine> getToc() {
+        return toc;
     }
 }

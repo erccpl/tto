@@ -1,74 +1,36 @@
 package agh.po.tto;
 
-import agh.po.tto.cli.CLIHandler;
-import agh.po.tto.doc.DocLine;
-import agh.po.tto.doc.Document;
-import agh.po.tto.path.DocPath;
-import agh.po.tto.preprocess.PreProcessor;
-import agh.po.tto.search.NodeParser;
+import agh.po.tto.cli.CommandExecutor;
 import org.apache.commons.cli.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+
+//TODO: may consider adding some more sophisticated formatting
+//TODO: Titles should be separate nodes
+//TODO: initially arguments must be in same format, i.e. roman or arabic
 
 public class Main {
-
-    //TODO: may consider adding some more sophisticated formatting
     private static void displayWelcomeMessage() {
         String welcomeMessage =
                 "Hello and welcome to the Act Parser \n" +
                 "Use -h to display the how-to message. \n\n";
         System.out.println(welcomeMessage);
 
-        Options options = CLIHandler.buildOptions();
+        Options options = CommandExecutor.buildOptions();
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("LegalActParser", options);
     }
 
 
     public static void main(String[] args) throws ParseException {
-        //displayWelcomeMessage();
-
-        List<String> rawDocument = new ArrayList<>();
-        String filename = "./src/main/resources/uokik.txt";
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            while (br.ready()) {
-                rawDocument.add(br.readLine());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        PreProcessor preProcessor = new PreProcessor(rawDocument);
-        preProcessor.preprocess();
-        List<DocLine> preprocessed = preProcessor.getPreProcessedInput();
-
-//        for (DocLine line : preprocessed) {
-//            System.out.println(line.getContent() + " -- \t" + line.getType());
-//        }
-
-        Document document = new Document(preprocessed);
-        document.buildDocument();
-
-        NodeParser nodeParser = new NodeParser(document.getRootNode());
-        nodeParser.createTOC();
-        //nodeParser.printTOC();
-
-
-
-        //TODO: PathBuilder takes in user input and creates a path that is handed to NodeParser
-        DocPath path1 = new DocPath(new String[]{"^Art\\. 4\\.", "^1\\)", "^a\\)"});
-        DocPath path2 = new DocPath(new String[]{"^Art\\. 4\\.", "^b\\)"});
-
-        //find one particular node
-        //nodeParser.getOneNode(path1);
+        displayWelcomeMessage();
         System.out.println();
 
-        //find a range of nodes on the same depth
-        //nodeParser.getRange(path1, path2);
+        //Allow for using relative paths
+        String s = "-f /Users/eric/dev/java/text_to_object/src/main/resources/konstytucja.txt -a 4 -p 1 -a 5 ";
+        String s2 = "-f /Users/eric/dev/java/text_to_object/src/main/resources/uokik.txt  -t";
+
+        CommandExecutor cliHandler = new CommandExecutor();
+        cliHandler.execCommand(s);
 
 
 
@@ -77,9 +39,10 @@ public class Main {
 //        while (true) {
 //            System.out.print(">>");
 //            Scanner scan = new Scanner(System.in);
-//            String s = scan.next();
+//            String s1 = scan.next();
 //
-//            CLIHandler.doCommand(s);
+//
+//
 //
 //        }
 

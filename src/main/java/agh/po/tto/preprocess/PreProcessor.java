@@ -5,6 +5,11 @@ import agh.po.tto.doc.DocLineType;
 import agh.po.tto.regex.PatternManager;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -20,13 +25,21 @@ public class PreProcessor {
     private List<String> rawInput;
     private List<String> preProcessedInput;
     private PatternManager patternManager;
-
     private List<DocLine> docLines;
 
 
-    public PreProcessor(List<String> input) {
-        this.rawInput = input;
-        this.preProcessedInput = input;
+    public PreProcessor(String filePath) {
+        this.rawInput = new ArrayList<>();
+        //String path = new File("").getAbsolutePath().concat(filePath);
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            while (br.ready()) {
+                this.rawInput.add(br.readLine());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.preProcessedInput = rawInput;
         this.patternManager = new PatternManager();
         this.docLines = new ArrayList<>();
     }

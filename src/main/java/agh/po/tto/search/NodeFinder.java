@@ -32,6 +32,10 @@ public class NodeFinder {
         }
         else {
             if (index == ids.length - 1) {
+                if(ids.length == 1) {
+                    this.result = node;
+                    return;
+                }
                 String l = node.getParent().getId().get(0).getContent();
                 Pattern p = Pattern.compile(ids[index-1]);
                 if(p.matcher(l).find()) {

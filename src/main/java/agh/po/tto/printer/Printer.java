@@ -7,6 +7,19 @@ import java.util.ListIterator;
 
 public class Printer {
 
+    public static void printTOC(List<DocLine> toc) {
+        for (DocLine line : toc){
+            System.out.println(line.getContent());
+        }
+    }
+
+
+    class Formatter {
+
+
+
+    }
+
 //TODO : how exactly does this iteration work
 //    public void printTOC(List<DocLine> toc) {
 //        ListIterator<DocLine> it = toc.listIterator();
