@@ -1,5 +1,6 @@
 package agh.po.tto.cli;
 
+import agh.po.tto.Main;
 import agh.po.tto.doc.Document;
 import agh.po.tto.path.DocPath;
 import agh.po.tto.preprocess.PreProcessor;
@@ -48,6 +49,11 @@ public class CommandExecutor {
 
         try {
             CommandLine cmd = parser.parse(options, args);
+            if(cmd.hasOption("h")) {
+                Main.displayWelcomeMessage();
+                return;
+            }
+
             String filePath = cmd.getOptionValue("f");
             if(!CommandExecutor.pathExists(filePath)) {
                 throw new FileNotFoundException();
@@ -67,6 +73,7 @@ public class CommandExecutor {
             if(cmd.hasOption("t")) {
                 this.docParser.createTOC();
                 Printer.printTOC(docParser.getToc());
+                return;
             }
 
             DocPath[] paths = DocPath.parseInputPaths(cmd);
@@ -83,7 +90,9 @@ public class CommandExecutor {
         } catch (ParseException e) {
             System.err.println(e.getMessage());
         } catch (FileNotFoundException e){
-            System.err.println("Incorrect path to file");
+            System.err.println("Incorrect path to file. Please provide correct absolute path.");
+        } catch (InvalidParameterException e){
+            System.err.println("Invalid parameters. Please check ordering and/or correct numerals.");
         }
     }
 

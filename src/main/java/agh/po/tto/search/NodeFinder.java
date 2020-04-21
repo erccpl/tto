@@ -9,14 +9,19 @@ import java.util.regex.Pattern;
 public class NodeFinder {
     private DocNode rootNode;
     private DocNode result;
+    private int unique;
 
     public NodeFinder(DocNode rootNode) {
         this.rootNode = rootNode;
+        this.unique = 0;
     }
 
     public DocNode findNode(DocPath path) {
-        this.result = null;
         findNode(rootNode, path.getPath(), 0);
+        if(unique > 1) {
+            return null;
+        }
+        unique = 0;
         return result;
     }
 
@@ -33,6 +38,7 @@ public class NodeFinder {
         else {
             if (index == ids.length - 1) {
                 if(ids.length == 1) {
+                    this.unique++;
                     this.result = node;
                     return;
                 }

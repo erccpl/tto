@@ -42,7 +42,7 @@ public class DocParser {
     public void getNode(DocPath path) {
         DocNode node = nodeFinder.findNode(path);
         if(node == null) {
-            System.out.println("Path does not exist.");
+            System.err.println("Path does not exist (maybe wrong numerals?)");
             return;
         }
         List<String> result = getNodeContents(node, new ArrayList<>());
@@ -53,15 +53,15 @@ public class DocParser {
         DocNode node1 = nodeFinder.findNode(start);
         DocNode node2 = nodeFinder.findNode(end);
         if(node1 == null || node2 == null){
-            System.out.println("At least one of the given paths does not exist");
+            System.err.println("At least one of the given paths does not exist");
+            return;
         }
-        List<String> result = getNodeRangeContents(node1, node2, new ArrayList<>());
+        List<String> result = getNodeRangeContents(node1, node2, end, new ArrayList<>());
         result = result.stream().distinct().collect(Collectors.toList());
         result.forEach(System.out::println);
     }
 
-    private List<String> getNodeRangeContents(DocNode node1, DocNode node2, List<String> result) {
-        //TODO: this pattern replacement cannot be done here
+    private List<String> getNodeRangeContents(DocNode node1, DocNode node2, DocPath end, List<String> result) {
         String endPattern = node2.getId().get(0).getContent().replaceAll("\\)", "\\\\)");
         Pattern endNodeId = Pattern.compile(endPattern);
         Matcher m;
@@ -82,7 +82,7 @@ public class DocParser {
             currentDepth = currentNode.getDepth();
 
             if(currentDepth == previousDepth) {
-                result.add(currentNode.getId().get(0).getContent());
+                getNodeContents(currentNode, result);
                 while(currentNode.getSubContents().size() != 0){
                     currentNode = currentNode.getSubContents().get(0);
                 }
@@ -94,9 +94,7 @@ public class DocParser {
 
     private DocNode getNextNode(DocNode node) {
         DocNode parent = node.getParent();
-        //TODO: pattern striping and such does not belong here
-        String pattern = node.getId().get(0).getContent().replaceAll("\\)", "\\\\)");
-        pattern = pattern.replaceAll("\\(", "\\\\(");
+        String pattern = node.getId().get(0).getContent().replaceAll("\\)", "\\\\)").replaceAll("\\(", "\\\\(");
         Pattern id = Pattern.compile(pattern);
         Matcher m;
         for(int i = 0; i < parent.getSubContents().size(); i++) {

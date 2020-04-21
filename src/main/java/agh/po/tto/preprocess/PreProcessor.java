@@ -6,10 +6,7 @@ import agh.po.tto.regex.PatternManager;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -146,7 +143,7 @@ public class PreProcessor {
         }
 
         while (it.hasNext()) {
-            String line = it.next().strip();
+            String line = it.next().strip().replaceAll("\\)", "\\)").replaceAll("\\(", "\\\\(");
             DocLineType previousLineType = docLines.get(docLines.size() - 1).getType();
             Pair<Pattern, DocLineType> label = this.getMatchingLabel(line);
             Matcher m = patternManager.getAllCapsPattern().matcher(line);

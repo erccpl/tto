@@ -44,7 +44,6 @@ public class PatternManager {
 
 
         //Speical all-caps pattern
-        //TODO: write a proper regex for this
         this.allCapsPattern = Pattern.compile("^\\p{Lu}{3}");
 
 

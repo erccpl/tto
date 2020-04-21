@@ -13,11 +13,10 @@ public class DocPath {
         this.path = path;
     }
 
-    //TODO: supposes order in arguments is correct
     public static DocPath[] parseInputPaths(CommandLine cmd) {
         List<String> p1 = new ArrayList<>();
         List<String> p2 = new ArrayList<>();
-        Set charSet = new HashSet();
+        Map<String, String> charMap = new HashMap<>();
 
         Option[] options = cmd.getOptions();
         for (Option option : options) {
@@ -25,47 +24,33 @@ public class DocPath {
             if(op.equals("f") || op.equals("h") || op.equals("t")) {
                 continue;
             }
-            String id = convertToNodeIdentifier(op, option.getValue());
-            if(!charSet.contains(op)) {
-                charSet.add(op);
+            String id = DocPath.convertToNodeIdentifier(op, option.getValue());
+            if(!charMap.containsKey(op)) {
+                charMap.put(op, option.getValue());
                 p1.add(id);
             }
             else {
+                if(charMap.get(op).compareTo(option.getValue()) > 0){
+                    return new DocPath[]{};
+                }
                 p2.add(id);
             }
-
         }
-        for(String s : p1) {
-            System.out.println(s);
-        }
-        for(String s : p2) {
-            System.out.println(s);
-        }
-
         String[] path1 =  p1.toArray(new String[0]);
         String[] path2 =  p2.toArray(new String[0]);
 
         return new DocPath[]{new DocPath(path1), new DocPath(path2)};
-
     }
 
     private static String convertToNodeIdentifier(String op, String value) {
-        switch (op) {
-            case ("s"):
-                return "^DZIAŁ " + value;
-            case ("c"):
-                return "^Rozdział " + value;
-            case ("a"):
-                return "^Art. " + value + "\\.";
-            case ("p"):
-                return "^" + value + "\\. ";
-            case ("pp"):
-                return "^" + value + "\\)\\. ";
-            case ("l"):
-                return "^" + value + "\\)\\. ";
-            default:
-                return "";
-        }
+        return switch (op) {
+            case ("s") -> "^DZIAŁ " + value + "$";
+            case ("c") -> "^Rozdział " + value + "$";
+            case ("a") -> "^Art. " + value + "\\.$";
+            case ("p") -> "^" + value + ". ";
+            case ("pp"), ("l") -> "^" + value + "\\) ";
+            default -> "";
+        };
     }
 
     public String[] getPath() {

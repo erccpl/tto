@@ -1,6 +1,5 @@
 package agh.po.tto.doc;
 
-
 /**
  * Represents the structure of the document.
  * Used by the pre-processor to label every line of the document

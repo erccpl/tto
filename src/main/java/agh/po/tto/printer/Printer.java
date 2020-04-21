@@ -3,7 +3,6 @@ package agh.po.tto.printer;
 import agh.po.tto.doc.DocLine;
 
 import java.util.List;
-import java.util.ListIterator;
 
 public class Printer {
 
