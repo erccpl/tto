@@ -9,6 +9,7 @@ import agh.po.tto.search.DocParser;
 
 import org.apache.commons.cli.*;
 import java.io.FileNotFoundException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,10 +62,11 @@ public class CommandExecutor {
             }
 
             String filePath = cmd.getOptionValue("f");
+            String absolutePath = FileSystems.getDefault().getPath(filePath).normalize().toAbsolutePath().toString();
             if(!CommandExecutor.pathExists(filePath)) {
                 throw new FileNotFoundException();
             }
-            if(!this.filePath.equals(filePath)) {
+            if(!this.filePath.equals(absolutePath)) {
                 PreProcessor preProcessor = new PreProcessor(filePath);
                 preProcessor.preprocess();
                 this.document = new Document(preProcessor.getPreProcessedInput());
@@ -73,7 +75,7 @@ public class CommandExecutor {
             }
 
             if(filePath.isEmpty()) {
-                this.filePath = filePath;
+                this.filePath = absolutePath;
             }
 
             if(cmd.hasOption("t")) {
