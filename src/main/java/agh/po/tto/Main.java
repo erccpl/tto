@@ -1,31 +1,37 @@
+package agh.po.tto;
+
+import agh.po.tto.cli.CommandExecutor;
+import org.apache.commons.cli.*;
+
+import java.util.Scanner;
+
 public class Main {
 
-    //TODO: may consider adding some more sophisticated formatting
-    private static void displayWelcomeMessage() {
+    public static void displayWelcomeMessage() {
         String welcomeMessage =
-                "Hello and welcome to the Act Parser! \n" +
-                "Enter the path and options and we'll handle the rest. \n\n" +
-
-                "The program arguments are <path_to_file> followed by: \n" +
-                "-toc   prints the table of contents\n" +
-                "-p     prints a selected paragraph\n" +
-
-                "Example usages: \n";
-
+                "Hello and welcome to the Act Parser \n" +
+                "Use -h to display the how-to message. \n\n";
         System.out.println(welcomeMessage);
+
+        Options options = CommandExecutor.buildOptions();
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("LegalActParser", options);
     }
+
 
     public static void main(String[] args) {
         displayWelcomeMessage();
+        System.out.println();
+
+        CommandExecutor commandExecutor = new CommandExecutor();
+
         //Enter loop with Scanner
-            //Parse input to determine what we're doing today
-
-            //Do said thing
-
-        //Go back to loop to get next command
-
-        System.out.println(LineType.SECTION > LineType.CHAPTER);
-
+        while (true) {
+            System.out.print(">>");
+            Scanner scan = new Scanner(System.in);
+            String s = scan.nextLine();
+            commandExecutor.execCommand(s);
+            System.out.println();
+        }
     }
-
 }
