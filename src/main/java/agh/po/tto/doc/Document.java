@@ -24,13 +24,11 @@ public class Document {
             currentNode.getId().add(currentLine);
             return currentNode;
         }
-
         int lineDepth = currentLine.getType().getDepth();
         if (lineDepth == 0) {
             currentNode.getId().add(currentLine);
             return currentNode;
         }
-
         else if (lineDepth == 3) {
             DocNode parent = findParent(lineDepth, currentNode);
             if(parent.getId().size() == 1) {
@@ -40,12 +38,10 @@ public class Document {
             }
             return currentNode;
         }
-
         else if (currentLine.getType() == DocLineType.TEXT) {
             currentNode.getContents().add(currentLine);
             return currentNode;
         }
-
         else {
             DocNode newNode = new DocNode();
             newNode.getId().add(currentLine);
@@ -55,7 +51,6 @@ public class Document {
             parent.getSubContents().add(newNode);
             return newNode;
         }
-
     }
 
     private DocNode findParent(int newNodeDepth, DocNode currentNode) {

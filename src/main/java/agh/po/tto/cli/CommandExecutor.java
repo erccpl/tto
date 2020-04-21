@@ -55,7 +55,6 @@ public class CommandExecutor {
         try {
             CommandLine cmd = parser.parse(options, args);
 
-
             if(cmd.hasOption("h")) {
                 Main.displayWelcomeMessage();
                 return;
@@ -92,7 +91,6 @@ public class CommandExecutor {
             } else {
                 this.docParser.getNodeRange(paths[0], paths[1]);
             }
-
 
         } catch (ParseException e) {
             System.err.println(e.getMessage());
