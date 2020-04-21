@@ -62,7 +62,8 @@ public class DocParser {
     }
 
     private List<String> getNodeRangeContents(DocNode node1, DocNode node2, DocPath end, List<String> result) {
-        String endPattern = node2.getId().get(0).getContent().replaceAll("\\)", "\\\\)");
+        String endPattern = node2.getId().get(0).getContent()
+                .replaceAll("\\)", "\\\\)");
         Pattern endNodeId = Pattern.compile(endPattern);
         Matcher m;
         DocNode currentNode = node1;
@@ -94,7 +95,8 @@ public class DocParser {
 
     private DocNode getNextNode(DocNode node) {
         DocNode parent = node.getParent();
-        String pattern = node.getId().get(0).getContent().replaceAll("\\)", "\\\\)").replaceAll("\\(", "\\\\(");
+        String pattern = node.getId().get(0).getContent()
+                .replaceAll("\\)", "\\\\)").replaceAll("\\(", "\\\\(");
         Pattern id = Pattern.compile(pattern);
         Matcher m;
         for(int i = 0; i < parent.getSubContents().size(); i++) {

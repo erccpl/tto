@@ -19,7 +19,6 @@ public class Document {
     }
 
     private DocNode createNode(DocLine currentLine, DocNode currentNode) {
-
         if (currentNode.getId().isEmpty()) {
             currentNode.setParent(currentNode);
             currentNode.getId().add(currentLine);
@@ -27,7 +26,6 @@ public class Document {
         }
 
         int lineDepth = currentLine.getType().getDepth();
-
         if (lineDepth == 0) {
             currentNode.getId().add(currentLine);
             return currentNode;
@@ -70,7 +68,6 @@ public class Document {
         }
         return parent;
     }
-
 
     public DocNode getRootNode() {
         return rootNode;

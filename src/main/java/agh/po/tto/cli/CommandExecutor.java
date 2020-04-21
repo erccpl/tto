@@ -6,8 +6,8 @@ import agh.po.tto.path.DocPath;
 import agh.po.tto.preprocess.PreProcessor;
 import agh.po.tto.printer.Printer;
 import agh.po.tto.search.DocParser;
-import org.apache.commons.cli.*;
 
+import org.apache.commons.cli.*;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,15 +40,22 @@ public class CommandExecutor {
                 .addOption("a", "article", true, "Specifies an article")
                 .addOption("p", "paragraph", true, "Specifies a paragraph")
                 .addOption("pp", "paragraph-point", true, "Specifies a paragraph point")
-                .addOption("l", "letter", true, "Specifies a letter");
+                .addOption("l", "letter", true, "Specifies a letter")
+                .addOption("q", "quit", false, "Quits the program");
         return options;
     }
 
     public void execCommand(String s) {
+        if(s.equals("-q") || s.equals("--quit")) {
+            System.exit(0);
+        }
+
         String[] args = s.split(" ");
 
         try {
             CommandLine cmd = parser.parse(options, args);
+
+
             if(cmd.hasOption("h")) {
                 Main.displayWelcomeMessage();
                 return;

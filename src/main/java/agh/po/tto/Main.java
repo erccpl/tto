@@ -5,11 +5,6 @@ import org.apache.commons.cli.*;
 
 import java.util.Scanner;
 
-
-//TODO: may consider adding some more sophisticated formatting
-//TODO: Titles should be separate nodes
-//TODO: initially arguments must be in same format, i.e. roman or arabic
-
 public class Main {
 
     public static void displayWelcomeMessage() {
@@ -25,13 +20,8 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String temp;
         displayWelcomeMessage();
         System.out.println();
-
-        //Allow for using relative paths
-        //String s1 = "-f /Users/eric/dev/java/text_to_object/src/main/resources/konstytucja.txt -a 4";
-        //String s2 = "-f /Users/eric/dev/java/text_to_object/src/main/resources/uokik.txt  -t";
 
         CommandExecutor commandExecutor = new CommandExecutor();
 
@@ -44,6 +34,4 @@ public class Main {
             System.out.println();
         }
     }
-
-
 }

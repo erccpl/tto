@@ -1,6 +1,5 @@
 package agh.po.tto.doc;
 
-
 public class DocLine {
     private DocLineType type;
     private String content;

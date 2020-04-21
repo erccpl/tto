@@ -61,7 +61,7 @@ public class PatternManager {
         Pattern numDotPattern = Pattern.compile("^[1-9]+[a-z]*\\.[a-z]*");
         this.labels.add(Pair.of(numDotPattern, DocLineType.NUM_DOT));
 
-        Pattern numParenPattern = Pattern.compile("^[1-9]+[a-z]*\\)");
+        Pattern numParenPattern = Pattern.compile("^[0-9]+[a-z]*\\)");
         this.labels.add(Pair.of(numParenPattern, DocLineType.NUM_PAREN));
 
         Pattern letterParenPattern = Pattern.compile("^[a-z]\\)");

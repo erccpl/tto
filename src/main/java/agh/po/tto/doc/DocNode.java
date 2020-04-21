@@ -2,11 +2,6 @@ package agh.po.tto.doc;
 
 import java.util.ArrayList;
 
-/**
- * Represents a single node in the graph of the input file
- */
-
-//TODO: contents should be transformed into a String at this point
 public class DocNode {
 
     private int depth;

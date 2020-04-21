@@ -1,0 +1,17 @@
+
+Main
+TODO: may consider adding some more sophisticated formatting
+TODO: Titles should be separate nodes
+TODO: initially arguments must be in same format, i.e. roman or arabic
+TODO: allow relative paths
+
+DocNode
+TODO: contents should be transformed into a String at this point
+
+Preprocessor::lableLines
+TODO: assumes header is always three lines
+Code should analyze file to figure out what it is parsing
+
+
+-f /Users/eric/dev/java/text_to_object/src/main/resources/konstytucja.txt -a 4
+-f /Users/eric/dev/java/text_to_object/src/main/resources/uokik.txt  -t
